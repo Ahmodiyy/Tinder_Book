@@ -142,12 +142,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ? AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        return Container(
-                          width: _size.value,
-                          height: _size.value,
-                          decoration: BoxDecoration(
-                            color: _colorAnimationRed.value,
-                            shape: BoxShape.circle,
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            top: 0,
+                            bottom: 220,
+                          ),
+                          child: Container(
+                            width: _size.value,
+                            height: _size.value,
+                            decoration: BoxDecoration(
+                              color: _colorAnimationRed.value,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         );
                       },
@@ -159,131 +165,150 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ? AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        return Container(
-                          width: _size.value,
-                          height: _size.value,
-                          decoration: BoxDecoration(
-                            color: _colorAnimationGreen.value,
-                            shape: BoxShape.circle,
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            top: 0,
+                            bottom: 220,
+                          ),
+                          child: Container(
+                            width: _size.value,
+                            height: _size.value,
+                            decoration: BoxDecoration(
+                              color: _colorAnimationGreen.value,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         );
                       },
                     )
                   : Container()),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.menu,
-                      color: Colors.grey,
-                    ),
-                    Icon(Icons.album_rounded),
-                  ],
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Stack(children: [
-                    Padding(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Stack(children: [
-                        ImageWidget(books[3].img),
-                        ImageWidget(books[2].img),
-                        ImageWidget(books[1].img),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 10,
-                          child: GestureDetector(
-                            onHorizontalDragEnd: (details) {
-                              debugPrint(
-                                  "is completed ${_controller.isCompleted}");
-                              AnimationStatus status = _controller.status;
-                              _controller.addListener(() {
-                                if (_controller.isCompleted) {
-                                  _controller.reset();
-                                  setState(() {
-                                    Book first = books.first;
-                                    books.removeAt(0);
-                                    books.add(first);
-                                  });
-                                }
-                              });
-                            },
-                            onHorizontalDragUpdate:
-                                (DragUpdateDetails details) {
-                              debugPrint("drag ${details.delta.dx}");
-                              if (details.delta.dx.isNegative) {
-                                setState(() {
-                                  left = true;
-                                  right = false;
-                                });
-                              } else {
-                                setState(() {
-                                  left = false;
-                                  right = true;
-                                });
-                              }
-                              _controller.forward();
-                            },
-                            child: AnimatedBuilder(
-                              animation: curve,
-                              builder: (context, child) {
-                                return Transform.translate(
-                                  offset: left
-                                      ? Offset(curve.value * -360.0, 0.0)
-                                      : Offset(curve.value * 360.0, 0.0),
-                                  child: child,
-                                );
-                              },
-                              child: ImageWidget(books.first.img),
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ),
-                  ]),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(books[index].name,
-                              style: const TextStyle(
-                                  fontSize: 40, fontWeight: FontWeight.bold)),
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            books[index].author,
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(books[0].category,
-                              style: const TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                    ],
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 30,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.menu,
+                    color: Colors.grey,
                   ),
-                )
-              ],
+                  Icon(Icons.album_rounded),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 50,
+            left: 0,
+            right: 0,
+            bottom: 220,
+            child: Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: Stack(children: [
+                ImageWidget(books[3].img),
+                ImageWidget(books[2].img),
+                ImageWidget(books[1].img),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 10,
+                  child: GestureDetector(
+                    onHorizontalDragEnd: (details) {
+                      debugPrint("is completed ${_controller.isCompleted}");
+                      AnimationStatus status = _controller.status;
+                      _controller.addListener(() {
+                        if (_controller.isCompleted) {
+                          _controller.reset();
+                          setState(() {
+                            Book first = books.first;
+                            books.removeAt(0);
+                            books.add(first);
+                          });
+                        }
+                      });
+                    },
+                    onHorizontalDragUpdate: (DragUpdateDetails details) {
+                      debugPrint("drag ${details.delta.dx}");
+                      if (details.delta.dx.isNegative) {
+                        setState(() {
+                          left = true;
+                          right = false;
+                        });
+                      } else {
+                        setState(() {
+                          left = false;
+                          right = true;
+                        });
+                      }
+                      _controller.forward();
+                    },
+                    child: AnimatedBuilder(
+                      animation: curve,
+                      builder: (context, child) {
+                        return Transform.translate(
+                          offset: left
+                              ? Offset(curve.value * -360.0, 0.0)
+                              : Offset(curve.value * 360.0, 0.0),
+                          child: child,
+                        );
+                      },
+                      child: ImageWidget(books.first.img),
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 200,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        books[index].name,
+                        style: const TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        books[index].author,
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(books[0].category,
+                          style: const TextStyle(fontSize: 20)),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ]),
