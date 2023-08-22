@@ -77,44 +77,44 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _controller = AnimationController(
       vsync: this,
 
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
       // Animation duration
     );
 
     curve = CurvedAnimation(parent: _controller, curve: Curves.easeInExpo);
 
     _colorAnimationRed =
-        ColorTween(begin: Colors.transparent, end: Colors.red).animate(
+        ColorTween(begin: Colors.white, end: Colors.red).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
           0.0,
           0.10,
-          curve: Curves.easeInExpo,
+          curve: Curves.ease,
         ),
       ),
     );
 
     _colorAnimationGreen =
-        ColorTween(begin: Colors.transparent, end: Colors.green).animate(
+        ColorTween(begin: Colors.white, end: Colors.green).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
           0.0,
           0.10,
-          curve: Curves.easeInExpo,
+          curve: Curves.ease,
         ),
       ),
     );
 
     _size = Tween<double>(
-      begin: 450.0,
-      end: 550.0,
+      begin: 100.0,
+      end: 600.0,
     ).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
-          0.70,
+          0.0,
           1.0,
           curve: Curves.ease,
         ),
@@ -137,47 +137,31 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       child: Scaffold(
         body: Stack(children: [
           Positioned(
-              left: 50,
+              right: -250,
+              top: 50,
+              bottom: 220,
               child: right
                   ? AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            top: 0,
-                            bottom: 220,
-                          ),
-                          child: Container(
-                            width: _size.value,
-                            height: _size.value,
-                            decoration: BoxDecoration(
-                              color: _colorAnimationRed.value,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
+                        return CustomPaint(
+                          painter: CirclePainter(_colorAnimationRed.value!),
+                          size: Size(_size.value!, _size.value!),
                         );
                       },
                     )
                   : Container()),
           Positioned(
-              right: 50,
+              left: -250,
+              top: 50,
+              bottom: 220,
               child: left
                   ? AnimatedBuilder(
                       animation: _controller,
                       builder: (context, child) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            top: 0,
-                            bottom: 220,
-                          ),
-                          child: Container(
-                            width: _size.value,
-                            height: _size.value,
-                            decoration: BoxDecoration(
-                              color: _colorAnimationGreen.value,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
+                        return CustomPaint(
+                          painter: CirclePainter(_colorAnimationGreen.value!),
+                          size: Size(_size.value!, _size.value!),
                         );
                       },
                     )
@@ -314,5 +298,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ]),
       ),
     );
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  Color color;
+  CirclePainter(this.color);
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+
+    canvas.drawCircle(center, radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
