@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late Animation<Color?> _colorAnimationRed;
   late Animation<Color?> _colorAnimationGreen;
   late Animation<double?> _size;
+  late Animation<double?> _opacity;
   bool left = false;
   bool right = false;
 
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       // Animation duration
     );
 
-    curve = CurvedAnimation(parent: _controller, curve: Curves.easeInExpo);
+    curve = CurvedAnimation(parent: _controller, curve: Curves.ease);
 
     _colorAnimationRed =
         ColorTween(begin: Colors.white, end: Colors.red).animate(
@@ -109,12 +110,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     _size = Tween<double>(
       begin: 100.0,
-      end: 600.0,
+      end: 1000.0,
     ).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(
           0.0,
+          1.0,
+          curve: Curves.ease,
+        ),
+      ),
+    );
+
+    _opacity = Tween<double>(
+      begin: 1.0,
+      end: 0.1,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(
+          0.5,
           1.0,
           curve: Curves.ease,
         ),
@@ -145,7 +160,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       animation: _controller,
                       builder: (context, child) {
                         return CustomPaint(
-                          painter: CirclePainter(_colorAnimationRed.value!),
+                          painter: CirclePainter(_colorAnimationRed.value!
+                              .withOpacity(_opacity.value!)),
                           size: Size(_size.value!, _size.value!),
                         );
                       },
@@ -160,7 +176,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       animation: _controller,
                       builder: (context, child) {
                         return CustomPaint(
-                          painter: CirclePainter(_colorAnimationGreen.value!),
+                          painter: CirclePainter(_colorAnimationGreen.value!
+                              .withOpacity(_opacity.value!)),
                           size: Size(_size.value!, _size.value!),
                         );
                       },
