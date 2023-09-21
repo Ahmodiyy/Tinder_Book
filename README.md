@@ -15,7 +15,6 @@ To populate and display data within the design, I implemented a simple list data
 
 In summary, this Flutter project demonstrates a successful implementation of a design challenge, leveraging CustomPainter, Stack, AnimationController, and a straightforward list data structure. The result is an engaging and visually appealing user interface that combines custom graphics, dynamic animations, and data presentation.
 
-Feel free to explore the code and UI to gain a deeper understanding of how these Flutter concepts were applied to achieve the design challenge. Additionally, please refer to the project's README for detailed instructions on installation, usage, and contributions.
 
 
 
